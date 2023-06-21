@@ -22,6 +22,11 @@ jobs:
                 run: |
                     cd ./run/server-1
                     tar -czf /tmp/server.tar.gz server.jar libs
+            -   name: Upload a Build Artifact
+                uses: actions/upload-artifact@v3.1.2
+                with:
+                    name: build
+                    path: /tmp/server.tar.gz                   
             -   name: Set up SSH
                 run: |
                     mkdir -p ~/.ssh/
@@ -38,6 +43,7 @@ jobs:
                     SSH_KEY: ${{ secrets.SSH_KEY }}
                     SSH_HOST: ${{ secrets.SSH_HOST }}
                     SSH_USER: ${{ secrets.SSH_USER }}
+
             -   name: Copy server files to remote
                 run: |
                     scp /tmp/server.tar.gz phantazm:/home/prod/archive/server.tar.gz
